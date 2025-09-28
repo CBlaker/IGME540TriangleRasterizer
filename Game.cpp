@@ -277,7 +277,7 @@ void Game::Draw(float deltaTime, float totalTime, debug& debugInfo)
 	}
 
 	//Set buffers and draw geometry
-	meshPtr->Mesh::Draw();
+	meshPtr->Mesh::Draw(3);
 
 	ImGui::Render(); // Turns this frame’s UI into renderable triangles
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData()); // Draws it to the screen

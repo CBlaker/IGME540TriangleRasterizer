@@ -9,22 +9,8 @@
 using namespace DirectX;
 
 
-XMFLOAT4 red = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
-XMFLOAT4 green = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
-XMFLOAT4 blue = XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f);
-
-Vertex vertices[] =
-{
-	{ XMFLOAT3(+0.0f, +0.5f, +0.0f), red },
-	{ XMFLOAT3(+0.5f, -0.5f, +0.0f), blue },
-	{ XMFLOAT3(-0.5f, -0.5f, +0.0f), green },
-};
-
-Index indices[] = { 0, 1, 2 };
-
-
-//Make Buffers`
-void Mesh::MakeVertexBuffer(int vertCount) {
+//Make Buffers
+void Mesh::MakeVertexBuffer(Vertex verticies[], int vertCount) {
 	{
 
 		D3D11_BUFFER_DESC vbd = {};
@@ -37,13 +23,13 @@ void Mesh::MakeVertexBuffer(int vertCount) {
 
 
 		D3D11_SUBRESOURCE_DATA initialVertexData = {};
-		initialVertexData.pSysMem = vertices; // pSysMem = Pointer to System Memory
+		initialVertexData.pSysMem = verticies; // pSysMem = Pointer to System Memory
 
 		Graphics::Device->CreateBuffer(&vbd, &initialVertexData, vertexBuffer.GetAddressOf());
 	}
 }
 
-void Mesh::MakeIndexBuffer(int indxCount) {
+void Mesh::MakeIndexBuffer(Index indicies[], int indxCount) {
 	{
 		D3D11_BUFFER_DESC ibd = {};
 		ibd.Usage = D3D11_USAGE_IMMUTABLE;	// Will NEVER change
@@ -54,22 +40,22 @@ void Mesh::MakeIndexBuffer(int indxCount) {
 		ibd.StructureByteStride = 0;
 
 		D3D11_SUBRESOURCE_DATA initialIndexData = {};
-		initialIndexData.pSysMem = indices; // pSysMem = Pointer to System Memory
+		initialIndexData.pSysMem = indicies; // pSysMem = Pointer to System Memory
 
 		Graphics::Device->CreateBuffer(&ibd, &initialIndexData, indexBuffer.GetAddressOf());
 	}
 }
 
 
-int Mesh::GetVertexCount() {
-	return 0;
+int Mesh::GetVertexCount(Vertex vertexes[]) {
+	return sizeof(vertexes);
 }
 
-int Mesh::GetIndexCount() {
-	return 0;
+int Mesh::GetIndexCount(Index indicies[]) {
+	return sizeof(indicies);
 }
 
-void Mesh::Draw() {
+void Mesh::Draw(int indxCount) {
 	{
 		UINT stride = sizeof(Vertex);
 		UINT offset = 0;
@@ -78,7 +64,7 @@ void Mesh::Draw() {
 
 
 		Graphics::Context->DrawIndexed(
-			3,     // The number of indices to use (we could draw a subset if we wanted)
+			indxCount,     // The number of indices to use (we could draw a subset if we wanted)
 			0,     // Offset to the first index we want to use
 			0);    // Offset to add to each index when looking up vertices
 	}
