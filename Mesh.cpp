@@ -23,13 +23,13 @@ Vertex vertices[] =
 Index indices[] = { 0, 1, 2 };
 
 
-//Make Buffers
-void MakeVertexBuffer() {
+//Make Buffers`
+void Mesh::MakeVertexBuffer(int vertCount) {
 	{
 
 		D3D11_BUFFER_DESC vbd = {};
 		vbd.Usage = D3D11_USAGE_IMMUTABLE;	// Will NEVER change
-		vbd.ByteWidth = sizeof(Vertex) * 3;       // 3 = number of vertices in the buffer
+		vbd.ByteWidth = sizeof(Vertex) * vertCount;
 		vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER; // Tells Direct3D this is a vertex buffer
 		vbd.CPUAccessFlags = 0;	// Note: We cannot access the data from C++ (this is good)
 		vbd.MiscFlags = 0;
@@ -43,12 +43,11 @@ void MakeVertexBuffer() {
 	}
 }
 
-void MakeIndexBuffer() {
-
+void Mesh::MakeIndexBuffer(int indxCount) {
 	{
 		D3D11_BUFFER_DESC ibd = {};
 		ibd.Usage = D3D11_USAGE_IMMUTABLE;	// Will NEVER change
-		ibd.ByteWidth = sizeof(unsigned int) * 3;	// 3 = number of indices in the buffer
+		ibd.ByteWidth = sizeof(unsigned int) * indxCount;
 		ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;	// Tells Direct3D this is an index buffer
 		ibd.CPUAccessFlags = 0;	// Note: We cannot access the data from C++ (this is good)
 		ibd.MiscFlags = 0;
@@ -62,14 +61,26 @@ void MakeIndexBuffer() {
 }
 
 
-int GetVertexCount() {
-
+int Mesh::GetVertexCount() {
+	return 0;
 }
 
-int GetIndexCount() {
-
+int Mesh::GetIndexCount() {
+	return 0;
 }
 
-void Draw() {
+void Mesh::Draw() {
+	{
+		UINT stride = sizeof(Vertex);
+		UINT offset = 0;
+		Graphics::Context->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), &stride, &offset);
+		Graphics::Context->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+
+
+		Graphics::Context->DrawIndexed(
+			3,     // The number of indices to use (we could draw a subset if we wanted)
+			0,     // Offset to the first index we want to use
+			0);    // Offset to add to each index when looking up vertices
+	}
 
 }

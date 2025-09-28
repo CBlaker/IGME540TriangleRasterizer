@@ -24,6 +24,9 @@ public:
 	void UpdateGuiData(float deltaTime, debug guiInfo);
 	void BuildUI(debug& guiInfo, int framesElapsed);
 
+	//Mesh Functions
+
+
 	//Main Loop Functions
 	void Update(float deltaTime, float totalTime, debug& debugInfo);
 	void Draw(float deltaTime, float totalTime, debug& debugInfo);
