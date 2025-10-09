@@ -167,14 +167,42 @@ void Game::LoadShaders()
 }
 
 
+//Color Definitions
+XMFLOAT4 red = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
+XMFLOAT4 green = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+XMFLOAT4 blue = XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f);
+
+
+//Mesh 1 Vertex Data
+Vertex vertices1[] =
+{
+	{ XMFLOAT3(+0.0f, +0.5f, +0.0f), red },
+	{ XMFLOAT3(+0.5f, -0.5f, +0.0f), blue },
+	{ XMFLOAT3(-0.5f, -0.5f, +0.0f), green },
+};
+
+Index indices1[] = { 0, 1, 2 };
+
+//Mesh 2 Vertex Data
+Vertex vertices2[] =
+{
+	{ XMFLOAT3(+0.0f, +0.5f, +0.0f), red },
+	{ XMFLOAT3(+0.5f, -0.5f, +0.0f), blue },
+	{ XMFLOAT3(-0.5f, -0.5f, +0.0f), green },
+};
+
+Index indices2[] = { 0, 1, 2 };
 
 // --------------------------------------------------------
 // Creates the geometry we're going to draw
 // --------------------------------------------------------
 void Game::CreateGeometry()
 {
-	meshPtr->Mesh::MakeVertexBuffer(3);
-	meshPtr->Mesh::MakeIndexBuffer(3);
+	int vtxCount = meshPtr->Mesh::GetVertexCount(vertices1);
+	int idxCount = meshPtr->Mesh::GetIndexCount(indices1);
+
+	meshPtr->Mesh::MakeVertexBuffer(vertices2, vtxCount);
+	meshPtr->Mesh::MakeIndexBuffer(indices2, idxCount);
 }
 
 
