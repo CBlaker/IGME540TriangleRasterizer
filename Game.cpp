@@ -31,12 +31,6 @@ debug Game::initializeDebugInfo() {
 // are initialized but before the game loop begins
 // --------------------------------------------------------
 
-//Create Instance of Mesh Class and Ptr
-Mesh mesh;
-Mesh* meshPtr = &mesh;
-
-
-
 Game::Game()
 {
 	// Initialize ImGui itself & platform/renderer backends
@@ -166,43 +160,55 @@ void Game::LoadShaders()
 	}
 }
 
+Mesh* Game::MakeBuffers(Vertex vertices[], Index indices[]) {
 
-//Color Definitions
-XMFLOAT4 red = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
-XMFLOAT4 green = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
-XMFLOAT4 blue = XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f);
+	//Create Instance of Mesh Class and Ptr
+	Mesh* meshPtr = new Mesh();
 
+	int vertCount = meshPtr->Mesh::GetVertexCount();
+	int indxCount = meshPtr->Mesh::GetIndexCount();
 
-//Mesh 1 Vertex Data
-Vertex vertices1[] =
-{
-	{ XMFLOAT3(+0.0f, +0.5f, +0.0f), red },
-	{ XMFLOAT3(+0.5f, -0.5f, +0.0f), blue },
-	{ XMFLOAT3(-0.5f, -0.5f, +0.0f), green },
-};
+	meshPtr->Mesh::MakeVertexBuffer(vertices, vertCount);
+	meshPtr->Mesh::MakeIndexBuffer(indices, indxCount);
 
-Index indices1[] = { 0, 1, 2 };
+	return meshPtr;
+}
 
-//Mesh 2 Vertex Data
-Vertex vertices2[] =
-{
-	{ XMFLOAT3(+0.0f, +0.5f, +0.0f), red },
-	{ XMFLOAT3(+0.5f, -0.5f, +0.0f), blue },
-	{ XMFLOAT3(-0.5f, -0.5f, +0.0f), green },
-};
-
-Index indices2[] = { 0, 1, 2 };
 
 // --------------------------------------------------------
 // Creates the geometry we're going to draw
 // --------------------------------------------------------
 void Game::CreateGeometry()
 {
-	int vtxCount = meshPtr->Mesh::GetVertexCount(vertices1);
-	int idxCount = meshPtr->Mesh::GetIndexCount(indices1);
+	//Color Definitions
+	XMFLOAT4 red = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
+	XMFLOAT4 green = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
+	XMFLOAT4 blue = XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f);
 
-	meshPtr->Mesh::MakeVertexBuffer(vertices2, vtxCount);
-	meshPtr->Mesh::MakeIndexBuffer(indices2, idxCount);
+
+	//Mesh 1 Vertex Data
+	Vertex vert1[] =
+	{
+		{ XMFLOAT3(+0.0f, +0.5f, +0.0f), red },
+		{ XMFLOAT3(+0.5f, -0.5f, +0.0f), blue },
+		{ XMFLOAT3(-0.5f, -0.5f, +0.0f), green },
+	};
+
+	Index ind1[] = { 0, 1, 2 };
+
+	//Mesh 2 Vertex Data
+	Vertex vert2[] =
+	{
+		{ XMFLOAT3(+0.0f, +0.7f, -0.3f), red },
+		{ XMFLOAT3(-0.5f, -0.6f, +0.5f), blue },
+		{ XMFLOAT3(+0.6f, +0.2f, +0.0f), green },
+	};
+
+	Index ind2[] = { 0, 1, 2 };
+
+	//Creating Geometry
+	Mesh* mesh1 = Game::MakeBuffers(vert1, ind1);
+	Mesh* mesh2 = Game::MakeBuffers(vert2, ind2);
 }
 
 
@@ -305,7 +311,7 @@ void Game::Draw(float deltaTime, float totalTime, debug& debugInfo)
 	}
 
 	//Set buffers and draw geometry
-	meshPtr->Mesh::Draw(3);
+	mesh1->Mesh::Draw();
 
 	ImGui::Render(); // Turns this frame’s UI into renderable triangles
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData()); // Draws it to the screen

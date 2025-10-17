@@ -22,12 +22,15 @@ public:
 	void MakeVertexBuffer(Vertex verticies[], int vertCount);
 	void MakeIndexBuffer(Index indicies[], int indxCount);
 
-	int GetVertexCount(Vertex vertexes[]);
-	int GetIndexCount(Index indicies[]);
+	int GetVertexCount();
+	int GetIndexCount();
 
-	void Draw(int indxCount);
+	void Draw();
 
 private:
+	int VertexCount;
+	int IndexCount;
+
 	Microsoft::WRL::ComPtr<ID3D11Buffer> vertexBuffer;
 	Microsoft::WRL::ComPtr<ID3D11Buffer> indexBuffer;
 };

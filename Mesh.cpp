@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Graphics.h"
 #include "Mesh.h"
 
@@ -47,15 +49,15 @@ void Mesh::MakeIndexBuffer(Index indicies[], int indxCount) {
 }
 
 
-int Mesh::GetVertexCount(Vertex vertexes[]) {
-	return sizeof(vertexes);
+int Mesh::GetVertexCount() {
+	return VertexCount;
 }
 
-int Mesh::GetIndexCount(Index indicies[]) {
-	return sizeof(indicies);
+int Mesh::GetIndexCount() {
+	return IndexCount;
 }
 
-void Mesh::Draw(int indxCount) {
+void Mesh::Draw() {
 	{
 		UINT stride = sizeof(Vertex);
 		UINT offset = 0;
@@ -64,7 +66,7 @@ void Mesh::Draw(int indxCount) {
 
 
 		Graphics::Context->DrawIndexed(
-			indxCount,     // The number of indices to use (we could draw a subset if we wanted)
+			IndexCount,     // The number of indices to use (we could draw a subset if we wanted)
 			0,     // Offset to the first index we want to use
 			0);    // Offset to add to each index when looking up vertices
 	}

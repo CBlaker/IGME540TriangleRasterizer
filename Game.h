@@ -3,6 +3,7 @@
 #include <d3d11.h>
 #include <wrl/client.h>
 #include <DirectXMath.h>
+#include "Mesh.h"
 
 //Debug Info Struct
 struct debug {
@@ -25,7 +26,7 @@ public:
 	void BuildUI(debug& guiInfo, int framesElapsed);
 
 	//Mesh Functions
-
+	Mesh* MakeBuffers(Vertex verticies[], Index indicies[]);
 
 	//Main Loop Functions
 	void Update(float deltaTime, float totalTime, debug& debugInfo);
