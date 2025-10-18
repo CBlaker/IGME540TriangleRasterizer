@@ -49,12 +49,12 @@ void Mesh::MakeIndexBuffer(Index indicies[], int indxCount) {
 }
 
 
-int Mesh::GetVertexCount() {
-	return VertexCount;
+int Mesh::GetVertexCount(Vertex vertices[]) {
+	return sizeof(vertices) / sizeof(vertices[0]);
 }
 
-int Mesh::GetIndexCount() {
-	return IndexCount;
+int Mesh::GetIndexCount(Index indices[]) {
+	return sizeof(indices) / sizeof(indices[0]);
 }
 
 void Mesh::Draw() {

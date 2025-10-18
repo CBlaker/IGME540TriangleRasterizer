@@ -26,7 +26,7 @@ public:
 	void BuildUI(debug& guiInfo, int framesElapsed);
 
 	//Mesh Functions
-	Mesh* MakeBuffers(Vertex verticies[], Index indicies[]);
+	void MakeBuffers(Vertex verticies[], Index indicies[], Mesh* meshPtr);
 
 	//Main Loop Functions
 	void Update(float deltaTime, float totalTime, debug& debugInfo);

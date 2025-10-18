@@ -19,6 +19,7 @@
 // For the DirectX Math library
 using namespace DirectX;
 
+
 debug Game::initializeDebugInfo() {
 	debug debugInfo;
 	debugInfo.bgColor = DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
@@ -160,20 +161,25 @@ void Game::LoadShaders()
 	}
 }
 
-Mesh* Game::MakeBuffers(Vertex vertices[], Index indices[]) {
 
-	//Create Instance of Mesh Class and Ptr
-	Mesh* meshPtr = new Mesh();
+//Create Instance of Mesh Class and Ptr for Each Mesh
+Mesh mesh1;
+Mesh* meshPtr1 = &mesh1;
 
-	int vertCount = meshPtr->Mesh::GetVertexCount();
-	int indxCount = meshPtr->Mesh::GetIndexCount();
+Mesh mesh2;
+Mesh* meshPtr2 = &mesh2;
+
+
+void Game::MakeBuffers(Vertex vertices[], Index indices[], Mesh* meshPtr) {
+
+	int vertCount = meshPtr->Mesh::GetVertexCount(vertices);
+	int indxCount = meshPtr->Mesh::GetIndexCount(indices);
 
 	meshPtr->Mesh::MakeVertexBuffer(vertices, vertCount);
 	meshPtr->Mesh::MakeIndexBuffer(indices, indxCount);
-
-	return meshPtr;
 }
 
+//Mesh* meshPtr = new Mesh();
 
 // --------------------------------------------------------
 // Creates the geometry we're going to draw
@@ -207,8 +213,8 @@ void Game::CreateGeometry()
 	Index ind2[] = { 0, 1, 2 };
 
 	//Creating Geometry
-	Mesh* mesh1 = Game::MakeBuffers(vert1, ind1);
-	Mesh* mesh2 = Game::MakeBuffers(vert2, ind2);
+	Game::MakeBuffers(vert1, ind1, meshPtr1);
+	Game::MakeBuffers(vert2, ind2, meshPtr2);
 }
 
 
@@ -311,7 +317,7 @@ void Game::Draw(float deltaTime, float totalTime, debug& debugInfo)
 	}
 
 	//Set buffers and draw geometry
-	mesh1->Mesh::Draw();
+	meshPtr1->Mesh::Draw();
 
 	ImGui::Render(); // Turns this frame’s UI into renderable triangles
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData()); // Draws it to the screen

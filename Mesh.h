@@ -22,8 +22,8 @@ public:
 	void MakeVertexBuffer(Vertex verticies[], int vertCount);
 	void MakeIndexBuffer(Index indicies[], int indxCount);
 
-	int GetVertexCount();
-	int GetIndexCount();
+	int GetVertexCount(Vertex vertices[]);
+	int GetIndexCount(Index indices[]);
 
 	void Draw();
 
